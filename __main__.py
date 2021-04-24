@@ -10,21 +10,21 @@ def app():
 
 
 @app.command("encode")
-@click.option("--file-in", help="Файл, из которого делать шифр")
-@click.option("--from-cli", default=True, help="Запрашивать сообщение из консоли")
+@click.option("--file-from", default="./msg.bin", help="Файл, из которого делать шифр")
+@click.option("--from-cli/--no-cli", default=True, help="Запрашивать сообщение из консоли")
 @click.option(
     "--file-out", default="./msg.bin", help="Путь для зашифрованного сообщения"
 )
 @click.option(
     "--public-key-path", default="./public.pem", help="Путь до публичного ключа"
 )
-def encode(file_out, file_in, from_cli, public_key_path):
+def encode(file_out, file_from, from_cli, public_key_path):
     """Шифрует сообщение с помощью публичного ключа"""
     if from_cli:
         data = input("Сообщение: ")
         data = data.encode("utf-8")
     else:
-        with open(file_in, "rb") as f:
+        with open(file_from, "rb") as f:
             data = f.read()
 
     with open(public_key_path) as f:
